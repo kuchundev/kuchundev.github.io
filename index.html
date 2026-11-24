@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hleb Kuchun — strony internetowe dla firm</title>
+<meta name="description" content="Szybkie, nowoczesne strony wizytówki i landing page dla małych firm. Responsywne, lekkie, gotowe w kilka dni. Rozliczenie przez Useme z fakturą VAT.">
+<meta property="og:title" content="Hleb Kuchun — strony internetowe dla firm">
+<meta property="og:description" content="Strony wizytówki i landing page: szybkie, responsywne, gotowe w kilka dni.">
+<meta name="theme-color" content="#0f1115">
+<style>
+:root{--bg:#0f1115;--card:#171a20;--line:#272b33;--ink:#f2f1ee;--mute:#9da2ab;--acc:#7cc4a4;--max:1080px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+header{padding:26px 0;display:flex;justify-content:space-between;align-items:center}
+.name{font-weight:800;letter-spacing:-.01em}
+.name span{color:var(--acc)}
+.mail{color:var(--mute);text-decoration:none;font-size:.95rem}
+.mail:hover{color:var(--ink)}
+.hero{padding:56px 0 64px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(2.2rem,5.6vw,3.9rem);line-height:1.06;letter-spacing:-.03em;max-width:17ch}
+.hero h1 em{font-style:normal;color:var(--acc)}
+.hero p{color:var(--mute);font-size:1.1rem;max-width:58ch;margin-top:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chips span{border:1px solid var(--line);border-radius:999px;padding:.35em .85em;font-size:.88rem;color:var(--mute)}
+.btn{display:inline-block;margin-top:30px;background:var(--acc);color:#0f1115;font-weight:700;text-decoration:none;padding:.9em 1.4em;border-radius:999px}
+section{padding:64px 0}
+h2{font-size:1.7rem;letter-spacing:-.02em;margin-bottom:6px}
+.sub{color:var(--mute);margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}
+.proj:hover{transform:translateY(-3px);border-color:#3a3f49}
+.thumb{aspect-ratio:16/10;overflow:hidden;position:relative;border-bottom:1px solid var(--line);background:#222}
+.thumb iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform:scale(var(--s,.26));transform-origin:0 0;pointer-events:none}
+.proj div{padding:18px}
+.proj h3{font-size:1.08rem}
+.proj p{color:var(--mute);font-size:.92rem;margin-top:4px}
+.proj .tag{display:inline-block;margin-top:12px;font-size:.78rem;color:var(--acc);font-weight:600}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.cols{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.box{border:1px solid var(--line);border-radius:16px;padding:22px}
+.box h3{font-size:1.05rem;margin-bottom:6px}
+.box p{color:var(--mute);font-size:.95rem}
+@media (max-width:720px){.cols{grid-template-columns:1fr}}
+ol.steps{list-style:none;counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+ol.steps li{counter-increment:s;border-top:2px solid var(--acc);padding-top:14px}
+ol.steps li::before{content:"0" counter(s);color:var(--acc);font-weight:700;font-size:.85rem}
+ol.steps b{display:block;margin:.3em 0 .2em}
+ol.steps span{color:var(--mute);font-size:.93rem}
+@media (max-width:820px){ol.steps{grid-template-columns:1fr 1fr}}
+.cta{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:36px;text-align:center}
+.cta p{color:var(--mute);margin:8px auto 0;max-width:52ch}
+footer{padding:30px 0;color:var(--mute);font-size:.85rem;border-top:1px solid var(--line);margin-top:40px}
+@media (prefers-reduced-motion:reduce){.proj{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="name">Hleb Kuchun <span>· strony www</span></div>
+    <a class="mail" href="mailto:kuchun.dev@gmail.com">kuchun.dev@gmail.com</a>
+  </header>
+
+  <div class="hero">
+    <h1>Strony dla firm, które <em>ładują się szybko</em> i zbierają zapytania.</h1>
+    <p>Projektuję i koduję strony wizytówki oraz landing page dla małych firm: czysty kod bez ciężkich szablonów, pełna responsywność, formularz kontaktowy i podstawowe SEO. Pierwsza wersja zwykle w 2–4 dni.</p>
+    <div class="chips"><span>HTML / CSS / JS</span><span>WordPress</span><span>Responsywność (RWD)</span><span>PageSpeed 90+</span><span>SEO on-page</span><span>PL · EN · RU</span></div>
+    <a class="btn" href="#projekty">Zobacz projekty</a>
+  </div>
+
+  <section id="projekty">
+    <h2>Projekty demonstracyjne</h2>
+    <p class="sub">Koncepcje przygotowane dla fikcyjnych marek — pokazują styl, jakość kodu i podejście do różnych branż.</p>
+    <div class="grid">
+      <a class="proj" href="warsztat.html"><div class="thumb"><iframe src="warsztat.html" title="Podgląd strony warsztatu samochodowego" tabindex="-1" aria-hidden="true"></iframe></div><div><h3>Warsztat samochodowy</h3><p>Strona usługowa z formularzem wyceny, cennikiem i paskiem „Zadzwoń” na telefonie.</p><span class="tag">Zobacz stronę →</span></div></a>
+      <a class="proj" href="salon.html"><div class="thumb"><iframe src="salon.html" title="Podgląd strony gabinetu kosmetycznego" tabindex="-1" aria-hidden="true"></iframe></div><div><h3>Gabinet kosmetyczny</h3><p>Elegancki layout, cennik w zakładkach i prosty moduł rezerwacji terminu.</p><span class="tag">Zobacz stronę →</span></div></a>
+      <a class="proj" href="builders.html"><div class="thumb"><iframe src="builders.html" title="Podgląd strony firmy budowlanej" tabindex="-1" aria-hidden="true"></iframe></div><div><h3>Firma budowlana (EN)</h3><p>Minimalistyczna strona dla rynku UK: usługi, realizacje, proces i formularz wyceny.</p><span class="tag">Zobacz stronę →</span></div></a>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <h2>Co mogę zrobić</h2>
+    <p class="sub">Najczęstsze zlecenia, które realizuję.</p>
+    <div class="cols">
+      <div class="box"><h3>Strona wizytówka</h3><p>3–6 podstron, formularz kontaktowy, mapa, podstawowe SEO, wdrożenie na Twój hosting.</p></div>
+      <div class="box"><h3>Landing page</h3><p>Jedna strona pod kampanię lub usługę — z naciskiem na szybkość i liczbę zapytań.</p></div>
+      <div class="box"><h3>Poprawki i optymalizacja</h3><p>Przyspieszenie strony, poprawa wersji mobilnej, naprawa formularzy i błędów.</p></div>
+      <div class="box"><h3>Strona z projektu Figma / Canva</h3><p>Przeniesienie gotowego projektu graficznego na działającą, responsywną stronę.</p></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <h2>Jak pracuję</h2>
+    <p class="sub">Prosto i przejrzyście, rozliczenie przez Useme z fakturą VAT.</p>
+    <ol class="steps">
+      <li><b>Wycena</b><span>Opisujesz potrzeby — odpowiadam z ceną i terminem w 24 h.</span></li>
+      <li><b>Projekt</b><span>Pokazuję pierwszą wersję online, zanim cokolwiek wdrożę.</span></li>
+      <li><b>Poprawki</b><span>Dwie rundy poprawek w cenie.</span></li>
+      <li><b>Wdrożenie</b><span>Publikacja na Twoim hostingu i przekazanie plików.</span></li>
+    </ol>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="cta">
+      <h2>Masz zlecenie?</h2>
+      <p>Napisz na <a href="mailto:kuchun.dev@gmail.com">kuchun.dev@gmail.com</a> lub przez Useme — odpowiem z wyceną.</p>
+    </div>
+  </section>
+
+  <footer>© 2026 Hleb Kuchun · Projekty na tej stronie są demonstracyjne, marki i dane kontaktowe w nich są fikcyjne.</footer>
+</div>
+<script>
+function fit(){document.querySelectorAll('.thumb').forEach(function(t){t.style.setProperty('--s',t.clientWidth/1280)})}
+fit();addEventListener('resize',fit);
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pracownia Wrzos — kosmetologia i stylizacja brwi | Warszawa Mokotów</title>
+<meta name="description" content="Gabinet kosmetologiczny na Mokotowie: zabiegi na twarz, stylizacja brwi i rzęs, manicure hybrydowy. Rezerwacja online w 30 sekund.">
+<meta name="theme-color" content="#f6f0ea">
+<style>
+:root{--bg:#f6f0ea;--card:#fffaf5;--ink:#2a2220;--mute:#7a6d68;--line:#e6dad0;--acc:#9c4f5b;--acc2:#e9cfc6;--max:1120px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;font-weight:400}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;text-decoration:none;font-weight:600;border-radius:999px;padding:.85em 1.4em;border:1.5px solid var(--ink);transition:background .2s,color .2s}
+.btn-dark{background:var(--ink);color:var(--bg)}
+.btn-dark:hover{background:var(--acc);border-color:var(--acc)}
+.btn-line:hover{background:var(--ink);color:var(--bg)}
+.kicker{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:600}
+h1,h2{line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(2rem,4.4vw,3.2rem);margin:.3em 0 .45em}
+.lead{color:var(--mute);font-size:1.07rem;max-width:56ch}
+
+header{padding:22px 0}
+.nav{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.5rem;text-decoration:none;letter-spacing:.01em}
+.logo i{font-style:italic;color:var(--acc)}
+.nav ul{display:flex;gap:1.8em;list-style:none}
+.nav ul a{text-decoration:none;color:var(--mute);font-size:.95rem}
+.nav ul a:hover{color:var(--ink)}
+@media (max-width:820px){.nav ul{display:none}}
+
+.hero{padding:40px 0 90px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.8rem,7vw,5.4rem);margin:.2em 0 .3em}
+.hero h1 i{color:var(--acc)}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.arch{aspect-ratio:4/5;border-radius:999px 999px 24px 24px;background:
+ radial-gradient(120% 70% at 30% 20%,#f3ddd4 0,transparent 60%),
+ radial-gradient(90% 60% at 80% 85%,#d9a9a7 0,transparent 65%),
+ linear-gradient(160deg,#ecd6cb,#c98f92);position:relative;overflow:hidden}
+.arch::after{content:"";position:absolute;inset:14% 18% auto;height:46%;border-radius:999px;border:1px solid rgba(255,255,255,.6)}
+.arch .tag{position:absolute;left:18px;bottom:18px;background:var(--card);border-radius:14px;padding:12px 16px;font-size:.9rem;box-shadow:0 10px 30px rgba(80,40,40,.15)}
+.arch .tag b{display:block;font-size:1.25rem}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.arch{max-width:420px}}
+
+section{padding:90px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 8px}
+.tab{font:inherit;cursor:pointer;background:transparent;border:1.5px solid var(--line);color:var(--mute);border-radius:999px;padding:.55em 1.1em;font-weight:600}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.menu{display:none;margin-top:18px}
+.menu.on{display:block}
+.item{display:grid;grid-template-columns:1fr auto;gap:6px 24px;padding:20px 0;border-bottom:1px solid var(--line)}
+.item h3{font-size:1.12rem;font-weight:600}
+.item p{grid-column:1;color:var(--mute);font-size:.94rem}
+.item .pr{grid-row:1/3;grid-column:2;text-align:right;align-self:center}
+.item .pr b{display:block;font-size:1.15rem}
+.item .pr small{color:var(--mute)}
+
+.about{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.vals{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.val{border:1px solid var(--line);border-radius:18px;padding:20px;background:var(--bg)}
+.val b{display:block;font-size:2rem;color:var(--acc)}
+.val span{color:var(--mute);font-size:.92rem}
+@media (max-width:860px){.about-grid{grid-template-columns:1fr}}
+
+.book{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px}
+form{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.f label{font-size:.84rem;color:var(--mute);font-weight:600}
+.f input,.f select{width:100%;min-width:0;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:.75em .9em}
+.f input:focus,.f select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.slots{display:flex;flex-wrap:wrap;gap:8px}
+.slot{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:.5em .8em;color:var(--ink)}
+.slot[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+form .btn{width:100%;margin-top:6px}
+.ok{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--acc2);font-weight:600}
+.book>*{min-width:0}
+@media (max-width:860px){.book{grid-template-columns:1fr}}
+
+.info{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.info div{border-top:1.5px solid var(--ink);padding-top:14px}
+.info h3{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+@media (max-width:720px){.info{grid-template-columns:1fr}}
+footer{padding:30px 0;border-top:1px solid var(--line);color:var(--mute);font-size:.86rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer em{color:var(--acc);font-style:normal}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <nav class="wrap nav" aria-label="Nawigacja">
+    <a href="#" class="logo serif">Pracownia <i>Wrzos</i></a>
+    <ul><li><a href="#zabiegi">Zabiegi</a></li><li><a href="#o-nas">O nas</a></li><li><a href="#rezerwacja">Rezerwacja</a></li><li><a href="#kontakt">Kontakt</a></li></ul>
+    <a class="btn btn-dark" href="#rezerwacja">Zarezerwuj</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" style="padding-top:40px">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="kicker">Kosmetologia · Mokotów</div>
+        <h1 class="serif">Skóra, która <i>odpoczęła</i>.</h1>
+        <p class="lead">Spokojny gabinet bez pośpiechu. Każdy zabieg zaczynamy od konsultacji, a plan pielęgnacji dostajesz na maila — żeby efekt został z Tobą dłużej niż do wyjścia.</p>
+        <div class="cta">
+          <a class="btn btn-dark" href="#rezerwacja">Zarezerwuj wizytę</a>
+          <a class="btn btn-line" href="#zabiegi">Zobacz cennik</a>
+        </div>
+      </div>
+      <div class="arch" role="img" aria-label="Ilustracja dekoracyjna">
+        <div class="tag"><b>Konsultacja 0 zł</b>przy pierwszym zabiegu</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="zabiegi" style="padding-top:0">
+    <div class="wrap">
+      <div class="kicker">Zabiegi i ceny</div>
+      <h2 class="serif">Cennik</h2>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-t="twarz">Twarz</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="brwi">Brwi i rzęsy</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="dlonie">Dłonie</button>
+      </div>
+      <div class="menu on" id="twarz" role="tabpanel">
+        <div class="item"><h3>Oczyszczanie wodorowe</h3><p>Głębokie oczyszczenie, peeling kawitacyjny, maska dopasowana do cery.</p><div class="pr"><b>220 zł</b><small>60 min</small></div></div>
+        <div class="item"><h3>Peeling kwasowy</h3><p>Seria pod przebarwienia lub wygładzenie. Dobór kwasów po konsultacji.</p><div class="pr"><b>250 zł</b><small>45 min</small></div></div>
+        <div class="item"><h3>Mezoterapia mikroigłowa</h3><p>Pobudzenie odnowy skóry, poprawa napięcia i kolorytu.</p><div class="pr"><b>390 zł</b><small>75 min</small></div></div>
+        <div class="item"><h3>Masaż twarzy Kobido</h3><p>Relaks i lifting bez igieł. Idealny przed ważnym wyjściem.</p><div class="pr"><b>210 zł</b><small>60 min</small></div></div>
+      </div>
+      <div class="menu" id="brwi" role="tabpanel">
+        <div class="item"><h3>Laminacja brwi z regulacją</h3><p>Ułożenie, koloryzacja i odżywienie włosków.</p><div class="pr"><b>160 zł</b><small>60 min</small></div></div>
+        <div class="item"><h3>Henna pudrowa</h3><p>Naturalny efekt cienia, trwałość do 4 tygodni.</p><div class="pr"><b>110 zł</b><small>45 min</small></div></div>
+        <div class="item"><h3>Lifting rzęs</h3><p>Podkręcenie i koloryzacja bez doklejania.</p><div class="pr"><b>170 zł</b><small>60 min</small></div></div>
+      </div>
+      <div class="menu" id="dlonie" role="tabpanel">
+        <div class="item"><h3>Manicure hybrydowy</h3><p>Opracowanie skórek, kształt, kolor do wyboru z 120 odcieni.</p><div class="pr"><b>130 zł</b><small>75 min</small></div></div>
+        <div class="item"><h3>Manicure japoński</h3><p>Pielęgnacja i naturalny połysk płytki bez lakieru.</p><div class="pr"><b>100 zł</b><small>45 min</small></div></div>
+        <div class="item"><h3>Parafina na dłonie</h3><p>Dodatek do każdego manicure — miękka skóra na dłużej.</p><div class="pr"><b>40 zł</b><small>15 min</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="o-nas">
+    <div class="wrap about-grid">
+      <div>
+        <div class="kicker">O pracowni</div>
+        <h2 class="serif">Mało osób, dużo uwagi</h2>
+        <p class="lead">Pracujemy w dwuosobowym zespole i przyjmujemy jedną klientkę na raz. Nie sprzedajemy pakietów na siłę — polecamy tylko to, co ma sens dla Twojej skóry.</p>
+      </div>
+      <div class="vals">
+        <div class="val"><b class="serif">1:1</b><span>jedna klientka w gabinecie</span></div>
+        <div class="val"><b class="serif">0 zł</b><span>konsultacja przy pierwszej wizycie</span></div>
+        <div class="val"><b class="serif">24 h</b><span>bezpłatna zmiana terminu</span></div>
+        <div class="val"><b class="serif">PDF</b><span>plan pielęgnacji po zabiegu</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rezerwacja">
+    <div class="wrap book">
+      <div>
+        <div class="kicker">Rezerwacja</div>
+        <h2 class="serif">Wybierz termin</h2>
+        <p class="lead">Potwierdzenie przyjdzie SMS-em. Dzień przed wizytą przypomnimy o terminie.</p>
+      </div>
+      <form onsubmit="return book(event)">
+        <div class="f"><label for="z">Zabieg</label>
+          <select id="z"><option>Oczyszczanie wodorowe</option><option>Peeling kwasowy</option><option>Laminacja brwi</option><option>Lifting rzęs</option><option>Manicure hybrydowy</option></select></div>
+        <div class="f"><label for="d">Dzień</label><input id="d" type="date" required></div>
+        <div class="f"><label>Godzina</label>
+          <div class="slots" id="slots"><button type="button" class="slot" aria-pressed="false">10:00</button><button type="button" class="slot" aria-pressed="false">11:30</button><button type="button" class="slot" aria-pressed="false">13:00</button><button type="button" class="slot" aria-pressed="false">15:30</button><button type="button" class="slot" aria-pressed="false">17:00</button></div></div>
+        <div class="two">
+          <div class="f"><label for="n">Imię</label><input id="n" autocomplete="given-name" required></div>
+          <div class="f"><label for="t">Telefon</label><input id="t" type="tel" autocomplete="tel" required></div>
+        </div>
+        <button class="btn btn-dark" type="submit">Rezerwuję</button>
+        <div class="ok" id="ok" role="status">Gotowe! Potwierdzimy termin SMS-em. (formularz demonstracyjny)</div>
+      </form>
+    </div>
+  </section>
+
+  <section id="kontakt" style="padding-top:0">
+    <div class="wrap">
+      <div class="kicker">Kontakt</div>
+      <h2 class="serif">Do zobaczenia</h2>
+      <div class="info">
+        <div><h3>Adres</h3><p>ul. Przykładowa 7/2<br>02-000 Warszawa</p></div>
+        <div><h3>Telefon</h3><p><a href="tel:+48220000000">22 000 00 00</a><br>pon–pt 9–20, sob 9–15</p></div>
+        <div><h3>Dojazd</h3><p>5 min od stacji metra<br>Parking w podwórzu</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span class="serif">© 2026 Pracownia Wrzos</span><em>Projekt demonstracyjny — marka i dane są fikcyjne.</em></div></footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('.tab').forEach(function(x){x.setAttribute('aria-selected','false')});
+  document.querySelectorAll('.menu').forEach(function(m){m.classList.remove('on')});
+  b.setAttribute('aria-selected','true');document.getElementById(b.dataset.t).classList.add('on');
+})});
+document.querySelectorAll('.slot').forEach(function(s){s.addEventListener('click',function(){
+  document.querySelectorAll('.slot').forEach(function(x){x.setAttribute('aria-pressed','false')});
+  s.setAttribute('aria-pressed','true');
+})});
+var d=document.getElementById('d');d.min=new Date().toISOString().slice(0,10);
+function book(e){e.preventDefault();document.getElementById('ok').style.display='block';return false}
+</script>
+</body>
+</html>
