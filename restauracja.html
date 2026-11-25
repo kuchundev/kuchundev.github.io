@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bistro Szparka — kuchnia sezonowa, menu online | Warszawa</title>
+<meta name="description" content="Bistro Szparka: sezonowa kuchnia polska, lunch dnia, menu online z alergenami, rezerwacja stolika i zamówienia na wynos. Warszawa.">
+<meta name="theme-color" content="#1f2a24">
+<style>
+:root{--bg:#f5efe4;--card:#fffaf1;--ink:#1f2a24;--mute:#6b6a5e;--line:#e3d8c4;--acc:#c4552d;--green:#2f4a3a;--max:1100px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+.serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-weight:700;text-decoration:none;border-radius:999px;padding:.85em 1.3em;border:2px solid var(--ink)}
+.btn-acc{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn-line{background:transparent}
+header{position:sticky;top:0;z-index:20;background:rgba(245,239,228,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:1.45rem;text-decoration:none}
+.logo b{color:var(--acc);font-weight:400}
+.nav ul{display:flex;gap:1.5em;list-style:none}
+.nav ul a{text-decoration:none;color:var(--mute);font-weight:600;font-size:.95rem}
+.nav .btn{padding:.55em 1em;font-size:.9rem}
+@media (max-width:760px){.nav ul{display:none}}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:56px 0 64px}
+.hero h1{font-size:clamp(2.6rem,6.5vw,4.8rem);line-height:1.02;font-weight:400}
+.hero h1 i{color:var(--acc)}
+.hero p{color:var(--mute);font-size:1.1rem;max-width:48ch;margin:18px 0 26px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.open{display:inline-flex;align-items:center;gap:.5em;font-size:.9rem;font-weight:600;color:var(--green);margin-bottom:14px}
+.dot{width:9px;height:9px;border-radius:50%;background:#3c9a5f;box-shadow:0 0 0 4px rgba(60,154,95,.18)}
+.plate{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,#fffaf1 0 47%,#efe5d3 47.5% 52%,#fffaf1 52.5% 100%);position:relative;box-shadow:0 30px 60px rgba(47,74,58,.18)}
+.plate::before{content:"";position:absolute;inset:24%;border-radius:50%;background:radial-gradient(circle at 38% 40%,#e9b04a 0 14%,transparent 15%),radial-gradient(circle at 62% 58%,#c4552d 0 13%,transparent 14%),radial-gradient(circle at 45% 66%,#5f8a4c 0 11%,transparent 12%),radial-gradient(circle at 64% 34%,#7da35f 0 9%,transparent 10%),radial-gradient(circle at 50% 50%,#f3e6cf 0 60%,transparent 61%)}
+.plate .tag{position:absolute;right:2%;bottom:10%;background:var(--green);color:#fff;border-radius:14px;padding:10px 14px;font-size:.88rem}
+.plate .tag b{display:block;font-size:1.05rem}
+@media (max-width:860px){.hero{grid-template-columns:1fr}.plate{width:100%;max-width:320px;margin:0 auto}}
+.lunch{background:var(--green);color:#f5efe4;border-radius:22px;padding:26px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;margin-bottom:70px}
+.lunch .k{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.8}
+.lunch h2{font-size:1.5rem;font-weight:400}
+.lunch .pr{font-size:1.8rem;font-weight:700}
+@media (max-width:640px){.lunch{grid-template-columns:1fr}}
+section{padding:0 0 80px}
+.kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);font-weight:700}
+h2.t{font-size:clamp(2rem,4.5vw,3rem);font-weight:400;margin:.2em 0 .5em}
+.chips{position:sticky;top:64px;z-index:10;background:var(--bg);display:flex;gap:8px;overflow-x:auto;padding:12px 0;border-bottom:1px solid var(--line);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;font-weight:600;font-size:.92rem;border:1.5px solid var(--line);border-radius:999px;padding:.45em 1em;background:var(--card)}
+.chips a.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cat{padding-top:26px}
+.cat h3{font-size:1.5rem;font-weight:400;margin-bottom:6px}
+.dish{display:grid;grid-template-columns:1fr auto;gap:4px 18px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.dish h4{font-size:1.05rem}
+.dish h4 span{font-size:.72rem;font-weight:700;color:var(--green);border:1px solid var(--green);border-radius:6px;padding:1px 5px;margin-left:6px;vertical-align:2px}
+.dish p{grid-column:1;color:var(--mute);font-size:.93rem}
+.dish .al{grid-column:1;font-size:.78rem;color:var(--mute)}
+.dish .pr{grid-row:1/4;grid-column:2;font-weight:700;align-self:start;font-size:1.05rem}
+.legend{font-size:.82rem;color:var(--mute);margin-top:14px}
+.qr{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px}
+.qr .code{background:#fff;border-radius:14px;padding:10px;border:1px solid var(--line)}
+.qr h3{font-size:1.6rem;font-weight:400}
+.qr p{color:var(--mute);margin-top:6px}
+.qr ul{margin:12px 0 0 18px;color:var(--mute);font-size:.95rem}
+@media (max-width:640px){.qr{grid-template-columns:1fr}.qr .code{max-width:200px}}
+.res{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px}
+form{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;gap:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f label{font-size:.83rem;font-weight:600;color:var(--mute)}
+.f input,.f select{font:inherit;width:100%;min-width:0;padding:.75em .85em;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+.f input:focus,.f select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.ok{display:none;padding:12px;border-radius:12px;background:#e4efe6;color:var(--green);font-weight:600}
+.info{list-style:none;margin-top:16px}
+.info li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line)}
+@media (max-width:820px){.res{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--mute);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer em{font-style:normal;color:var(--acc)}
+.callbar{display:none}
+@media (max-width:640px){.callbar{display:flex;position:fixed;left:10px;right:10px;bottom:10px;gap:8px;z-index:30}.callbar .btn{flex:1;box-shadow:0 10px 26px rgba(0,0,0,.25)}body{padding-bottom:74px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <nav class="wrap nav" aria-label="Nawigacja">
+    <a class="logo serif" href="#">Bistro <b>Szparka</b></a>
+    <ul><li><a href="#menu">Menu</a></li><li><a href="#qr">Menu na stolik</a></li><li><a href="#rezerwacja">Rezerwacja</a></li><li><a href="#kontakt">Kontakt</a></li></ul>
+    <a class="btn btn-acc" href="#rezerwacja">Zarezerwuj</a>
+  </nav>
+</header>
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <div class="open" id="open"><span class="dot"></span><span>Otwarte dziś 12:00–22:00</span></div>
+      <h1 class="serif">Kuchnia z tego, co <i>akurat rośnie</i>.</h1>
+      <p>Sezonowe polskie jedzenie, chleb z własnego pieca i krótka karta, która zmienia się co miesiąc. Lunch dnia od poniedziałku do piątku.</p>
+      <div class="cta"><a class="btn btn-acc" href="#menu">Zobacz menu</a><a class="btn btn-line" href="tel:+48220000000">Zamów na wynos</a></div>
+    </div>
+    <div class="plate" role="img" aria-label="Ilustracja dania"><div class="tag"><b>Lunch dnia</b>zupa + danie · 39 zł</div></div>
+  </div>
+
+  <div class="lunch">
+    <div><div class="k">Lunch dnia · pn–pt 12–16</div></div>
+    <div><h2 class="serif">Krem z pieczonej dyni + pierogi z kaszanką i jabłkiem</h2></div>
+    <div class="pr">39 zł</div>
+  </div>
+
+  <section id="menu">
+    <div class="kicker">Karta · listopad</div>
+    <h2 class="t serif">Menu</h2>
+    <nav class="chips" aria-label="Kategorie menu">
+      <a href="#przystawki" class="on">Przystawki</a><a href="#zupy">Zupy</a><a href="#glowne">Dania główne</a><a href="#desery">Desery</a><a href="#napoje">Napoje</a>
+    </nav>
+    <div class="cat" id="przystawki"><h3 class="serif">Przystawki</h3>
+      <div class="dish"><h4>Tatar z buraka <span>WEGE</span></h4><p>Pieczony burak, kapary, żółtko marynowane, grzanka z chleba na zakwasie.</p><div class="al">Alergeny: 1, 3</div><div class="pr">29 zł</div></div>
+      <div class="dish"><h4>Śledź w trzech odsłonach</h4><p>W oleju lnianym, w śmietanie z jabłkiem i w occie z cebulką.</p><div class="al">Alergeny: 4, 7</div><div class="pr">32 zł</div></div>
+      <div class="dish"><h4>Chleb z pieca i masło ziołowe <span>WEGE</span></h4><p>Pieczony każdego ranka, podawany na ciepło.</p><div class="al">Alergeny: 1, 7</div><div class="pr">14 zł</div></div>
+    </div>
+    <div class="cat" id="zupy"><h3 class="serif">Zupy</h3>
+      <div class="dish"><h4>Żurek na zakwasie</h4><p>Biała kiełbasa, jajko, chrzan, ziemniaki.</p><div class="al">Alergeny: 1, 3, 10</div><div class="pr">24 zł</div></div>
+      <div class="dish"><h4>Krem z pieczonej dyni <span>WEGAN</span></h4><p>Imbir, prażone pestki, olej dyniowy.</p><div class="al">Alergeny: —</div><div class="pr">21 zł</div></div>
+    </div>
+    <div class="cat" id="glowne"><h3 class="serif">Dania główne</h3>
+      <div class="dish"><h4>Policzki wołowe w piwie</h4><p>Puree z pieczonego selera, modra kapusta, sos z jałowcem.</p><div class="al">Alergeny: 1, 7, 9</div><div class="pr">59 zł</div></div>
+      <div class="dish"><h4>Pierogi z kaszanką i jabłkiem</h4><p>Smażona cebula, majeranek, kwaśna śmietana.</p><div class="al">Alergeny: 1, 3, 7</div><div class="pr">36 zł</div></div>
+      <div class="dish"><h4>Sandacz z masłem szałwiowym</h4><p>Kasza pęczak z grzybami, pieczona marchew.</p><div class="al">Alergeny: 1, 4, 7</div><div class="pr">64 zł</div></div>
+      <div class="dish"><h4>Placki z cukinii <span>WEGE</span></h4><p>Tzatziki z koperkiem, sałatka z pomidorów.</p><div class="al">Alergeny: 1, 3, 7</div><div class="pr">34 zł</div></div>
+    </div>
+    <div class="cat" id="desery"><h3 class="serif">Desery</h3>
+      <div class="dish"><h4>Sernik baskijski</h4><p>Konfitura z wiśni.</p><div class="al">Alergeny: 1, 3, 7</div><div class="pr">22 zł</div></div>
+      <div class="dish"><h4>Szarlotka na ciepło</h4><p>Lody waniliowe, kruszonka.</p><div class="al">Alergeny: 1, 3, 7</div><div class="pr">21 zł</div></div>
+    </div>
+    <div class="cat" id="napoje"><h3 class="serif">Napoje</h3>
+      <div class="dish"><h4>Kompot domowy</h4><p>Dzbanek 1 l.</p><div class="al">&nbsp;</div><div class="pr">18 zł</div></div>
+      <div class="dish"><h4>Lemoniada sezonowa</h4><p>Pigwa, rozmaryn, miód.</p><div class="al">&nbsp;</div><div class="pr">16 zł</div></div>
+    </div>
+    <p class="legend">Alergeny: 1 gluten · 3 jaja · 4 ryby · 7 mleko · 9 seler · 10 gorczyca. Pełna lista u obsługi.</p>
+  </section>
+
+  <section id="qr">
+    <div class="qr">
+      <div class="code"><svg viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Kod QR do menu"><rect width="35" height="35" fill="#fff"/><path fill="#1f2a24" d="M1 1h7v1h-7zM10 1h1v1h-1zM17 1h1v1h-1zM19 1h4v1h-4zM24 1h1v1h-1zM27 1h7v1h-7zM1 2h1v1h-1zM7 2h1v1h-1zM10 2h2v1h-2zM13 2h1v1h-1zM16 2h1v1h-1zM19 2h1v1h-1zM27 2h1v1h-1zM33 2h1v1h-1zM1 3h1v1h-1zM3 3h3v1h-3zM7 3h1v1h-1zM9 3h2v1h-2zM13 3h1v1h-1zM15 3h1v1h-1zM21 3h3v1h-3zM27 3h1v1h-1zM29 3h3v1h-3zM33 3h1v1h-1zM1 4h1v1h-1zM3 4h3v1h-3zM7 4h1v1h-1zM9 4h2v1h-2zM12 4h2v1h-2zM16 4h1v1h-1zM19 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM27 4h1v1h-1zM29 4h3v1h-3zM33 4h1v1h-1zM1 5h1v1h-1zM3 5h3v1h-3zM7 5h1v1h-1zM9 5h1v1h-1zM11 5h1v1h-1zM13 5h1v1h-1zM15 5h4v1h-4zM21 5h1v1h-1zM24 5h2v1h-2zM27 5h1v1h-1zM29 5h3v1h-3zM33 5h1v1h-1zM1 6h1v1h-1zM7 6h1v1h-1zM9 6h1v1h-1zM11 6h2v1h-2zM15 6h1v1h-1zM19 6h2v1h-2zM23 6h1v1h-1zM25 6h1v1h-1zM27 6h1v1h-1zM33 6h1v1h-1zM1 7h7v1h-7zM9 7h1v1h-1zM11 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM23 7h1v1h-1zM25 7h1v1h-1zM27 7h7v1h-7zM9 8h1v1h-1zM15 8h1v1h-1zM17 8h1v1h-1zM19 8h4v1h-4zM1 9h1v1h-1zM3 9h5v1h-5zM10 9h1v1h-1zM13 9h3v1h-3zM17 9h2v1h-2zM20 9h2v1h-2zM23 9h2v1h-2zM27 9h5v1h-5zM3 10h2v1h-2zM6 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h2v1h-2zM17 10h2v1h-2zM20 10h2v1h-2zM24 10h1v1h-1zM27 10h2v1h-2zM30 10h4v1h-4zM1 11h2v1h-2zM5 11h3v1h-3zM9 11h2v1h-2zM13 11h6v1h-6zM21 11h3v1h-3zM25 11h1v1h-1zM29 11h1v1h-1zM31 11h2v1h-2zM3 12h1v1h-1zM5 12h2v1h-2zM8 12h1v1h-1zM10 12h3v1h-3zM14 12h1v1h-1zM17 12h3v1h-3zM22 12h2v1h-2zM25 12h2v1h-2zM29 12h4v1h-4zM1 13h2v1h-2zM4 13h2v1h-2zM7 13h1v1h-1zM9 13h3v1h-3zM13 13h1v1h-1zM15 13h1v1h-1zM17 13h1v1h-1zM20 13h2v1h-2zM23 13h3v1h-3zM28 13h3v1h-3zM1 14h3v1h-3zM5 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM19 14h1v1h-1zM22 14h1v1h-1zM24 14h1v1h-1zM27 14h1v1h-1zM30 14h4v1h-4zM1 15h1v1h-1zM3 15h5v1h-5zM9 15h1v1h-1zM13 15h2v1h-2zM16 15h2v1h-2zM21 15h3v1h-3zM26 15h7v1h-7zM1 16h3v1h-3zM6 16h1v1h-1zM8 16h1v1h-1zM12 16h1v1h-1zM15 16h2v1h-2zM22 16h1v1h-1zM26 16h6v1h-6zM1 17h1v1h-1zM3 17h3v1h-3zM7 17h1v1h-1zM9 17h1v1h-1zM14 17h3v1h-3zM18 17h1v1h-1zM23 17h4v1h-4zM28 17h3v1h-3zM33 17h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM8 18h3v1h-3zM13 18h1v1h-1zM19 18h4v1h-4zM24 18h1v1h-1zM27 18h2v1h-2zM30 18h2v1h-2zM33 18h1v1h-1zM1 19h1v1h-1zM3 19h1v1h-1zM5 19h3v1h-3zM9 19h4v1h-4zM14 19h4v1h-4zM19 19h1v1h-1zM21 19h3v1h-3zM26 19h4v1h-4zM31 19h2v1h-2zM4 20h2v1h-2zM8 20h4v1h-4zM13 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM20 20h6v1h-6zM27 20h5v1h-5zM2 21h2v1h-2zM5 21h3v1h-3zM9 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM19 21h1v1h-1zM23 21h1v1h-1zM25 21h2v1h-2zM28 21h3v1h-3zM32 21h1v1h-1zM1 22h3v1h-3zM5 22h1v1h-1zM8 22h5v1h-5zM16 22h2v1h-2zM21 22h2v1h-2zM24 22h1v1h-1zM27 22h1v1h-1zM31 22h1v1h-1zM33 22h1v1h-1zM1 23h1v1h-1zM3 23h2v1h-2zM7 23h1v1h-1zM9 23h3v1h-3zM15 23h1v1h-1zM18 23h3v1h-3zM22 23h2v1h-2zM25 23h1v1h-1zM27 23h1v1h-1zM29 23h1v1h-1zM32 23h1v1h-1zM1 24h1v1h-1zM3 24h2v1h-2zM6 24h1v1h-1zM9 24h5v1h-5zM17 24h1v1h-1zM19 24h5v1h-5zM26 24h3v1h-3zM30 24h3v1h-3zM1 25h1v1h-1zM4 25h1v1h-1zM6 25h3v1h-3zM11 25h2v1h-2zM15 25h1v1h-1zM18 25h3v1h-3zM23 25h1v1h-1zM25 25h5v1h-5zM9 26h1v1h-1zM13 26h3v1h-3zM17 26h5v1h-5zM23 26h1v1h-1zM25 26h1v1h-1zM29 26h1v1h-1zM31 26h3v1h-3zM1 27h7v1h-7zM10 27h2v1h-2zM13 27h1v1h-1zM16 27h3v1h-3zM23 27h3v1h-3zM27 27h1v1h-1zM29 27h1v1h-1zM31 27h2v1h-2zM1 28h1v1h-1zM7 28h1v1h-1zM9 28h1v1h-1zM12 28h2v1h-2zM16 28h1v1h-1zM18 28h5v1h-5zM24 28h2v1h-2zM29 28h5v1h-5zM1 29h1v1h-1zM3 29h3v1h-3zM7 29h1v1h-1zM9 29h1v1h-1zM13 29h2v1h-2zM17 29h1v1h-1zM20 29h1v1h-1zM23 29h1v1h-1zM25 29h6v1h-6zM1 30h1v1h-1zM3 30h3v1h-3zM7 30h1v1h-1zM9 30h1v1h-1zM13 30h1v1h-1zM15 30h2v1h-2zM18 30h2v1h-2zM22 30h5v1h-5zM29 30h1v1h-1zM31 30h3v1h-3zM1 31h1v1h-1zM3 31h3v1h-3zM7 31h1v1h-1zM9 31h4v1h-4zM15 31h4v1h-4zM21 31h1v1h-1zM23 31h6v1h-6zM30 31h2v1h-2zM1 32h1v1h-1zM7 32h1v1h-1zM10 32h1v1h-1zM13 32h1v1h-1zM16 32h1v1h-1zM19 32h1v1h-1zM21 32h2v1h-2zM24 32h1v1h-1zM27 32h1v1h-1zM29 32h3v1h-3zM1 33h7v1h-7zM9 33h2v1h-2zM12 33h1v1h-1zM14 33h1v1h-1zM16 33h1v1h-1zM18 33h1v1h-1zM24 33h2v1h-2zM28 33h1v1h-1zM32 33h1v1h-1z"/></svg></div>
+      <div>
+        <div class="kicker">Menu na stolik</div>
+        <h3 class="serif">Zeskanuj i zamawiaj bez czekania na kartę</h3>
+        <p>Ten sam kod drukujemy na podstawkach na stoliki. Gość widzi aktualne menu z cenami i alergenami, a zmiana ceny na stronie od razu działa przy każdym stoliku.</p>
+        <ul><li>bez reprintu kart przy każdej zmianie,</li><li>dania „wyprzedane” znikają jednym kliknięciem,</li><li>wersja PL i EN dla turystów.</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="rezerwacja">
+    <div class="res">
+      <div>
+        <div class="kicker">Rezerwacja</div>
+        <h2 class="t serif">Zarezerwuj stolik</h2>
+        <p style="color:var(--mute)">Potwierdzimy SMS-em w ciągu 15 minut. Dla grup powyżej 8 osób — zadzwoń.</p>
+        <ul class="info" id="kontakt">
+          <li><span>Pon – Czw</span><b>12:00 – 22:00</b></li>
+          <li><span>Pt – Sob</span><b>12:00 – 23:00</b></li>
+          <li><span>Niedziela</span><b>12:00 – 20:00</b></li>
+          <li><span>Adres</span><b>ul. Przykładowa 3, Warszawa</b></li>
+          <li><span>Telefon</span><b><a href="tel:+48220000000">22 000 00 00</a></b></li>
+        </ul>
+      </div>
+      <form onsubmit="return book(event)">
+        <div class="two"><div class="f"><label for="d">Dzień</label><input id="d" type="date" required></div><div class="f"><label for="g">Godzina</label><select id="g"><option>13:00</option><option>15:00</option><option>17:30</option><option>19:00</option><option>20:30</option></select></div></div>
+        <div class="two"><div class="f"><label for="o">Liczba osób</label><select id="o"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7–8</option></select></div><div class="f"><label for="t">Telefon</label><input id="t" type="tel" autocomplete="tel" required></div></div>
+        <div class="f"><label for="n">Imię</label><input id="n" autocomplete="given-name" required></div>
+        <button class="btn btn-acc" type="submit">Rezerwuję stolik</button>
+        <div class="ok" id="ok" role="status">Dziękujemy! Potwierdzimy SMS-em. (formularz demonstracyjny)</div>
+      </form>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap"><span class="serif">© 2026 Bistro Szparka</span><em>Projekt demonstracyjny — marka, menu i dane kontaktowe są fikcyjne.</em></div></footer>
+<div class="callbar"><a class="btn btn-line" style="background:var(--card)" href="tel:+48220000000">Zadzwoń</a><a class="btn btn-acc" href="#menu">Menu</a></div>
+<script>
+var d=document.getElementById('d');d.min=new Date().toISOString().slice(0,10);
+function book(e){e.preventDefault();document.getElementById('ok').style.display='block';return false}
+(function(){var h=new Date().getHours(),s=document.querySelector('#open span:last-child'),dot=document.querySelector('.dot');if(h<12||h>=22){s.textContent='Teraz zamknięte · otwieramy o 12:00';dot.style.background='#b9a98c';dot.style.boxShadow='none'}})();
+var links=[].slice.call(document.querySelectorAll('.chips a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+en.target.id)})}})},{rootMargin:'-130px 0px -60% 0px'});document.querySelectorAll('.cat').forEach(function(c){io.observe(c)})}
+</script>
+</body>
+</html>
