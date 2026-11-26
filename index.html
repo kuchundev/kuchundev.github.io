@@ -30,6 +30,8 @@ section{padding:64px 0}
 h2{font-size:1.7rem;letter-spacing:-.02em;margin-bottom:6px}
 .sub{color:var(--mute);margin-bottom:28px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.grid .proj:first-child{grid-column:1/-1}
+.grid .proj:first-child .thumb{aspect-ratio:16/6}
 .proj{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}
 .proj:hover{transform:translateY(-3px);border-color:#3a3f49}
 .thumb{aspect-ratio:16/10;overflow:hidden;position:relative;border-bottom:1px solid var(--line);background:#222}
@@ -74,6 +76,7 @@ footer{padding:30px 0;color:var(--mute);font-size:.85rem;border-top:1px solid va
     <h2>Projekty demonstracyjne</h2>
     <p class="sub">Koncepcje przygotowane dla fikcyjnych marek — pokazują styl, jakość kodu i podejście do różnych branż.</p>
     <div class="grid">
+      <a class="proj" href="pergola.html"><div class="thumb" style="background:#e9eef0"><svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;background:#e9eef0"><rect y="200" width="400" height="50" fill="#d2d6ce"/><g stroke="#2a2f33" stroke-width="6"><line x1="95" y1="200" x2="95" y2="118"/><line x1="305" y1="200" x2="305" y2="118"/><line x1="140" y1="186" x2="140" y2="88"/><line x1="350" y1="186" x2="350" y2="88"/></g><polygon points="78,112 322,112 368,80 124,80" fill="#383e42"/><polygon points="78,112 322,112 322,120 78,120" fill="#2a2f33"/><g font-family="system-ui,Arial" font-size="13" fill="#2f3a40"><rect x="14" y="14" width="118" height="24" rx="5" fill="#fff"/><text x="24" y="31">4,0 × 3,0 m · 8°</text><rect x="266" y="14" width="120" height="24" rx="5" fill="#fff"/><text x="276" y="31">14 950 zł brutto</text></g></svg></div><div><h3>Konfigurator wiaty 3D</h3><p>Three.js: wymiary, kąt dachu, kolor RAL, cena na żywo i specyfikacja PDF z rzutami. Działa na telefonie.</p><span class="tag">Zobacz konfigurator →</span></div></a>
       <a class="proj" href="restauracja.html"><div class="thumb"><iframe src="restauracja.html" title="Podgląd strony restauracji" tabindex="-1" aria-hidden="true"></iframe></div><div><h3>Restauracja / bistro</h3><p>Menu online z alergenami, lunch dnia, kod QR na stoliki i rezerwacja stolika. Zaprojektowane najpierw pod telefon.</p><span class="tag">Zobacz stronę →</span></div></a>
       <a class="proj" href="warsztat.html"><div class="thumb"><iframe src="warsztat.html" title="Podgląd strony warsztatu samochodowego" tabindex="-1" aria-hidden="true"></iframe></div><div><h3>Warsztat samochodowy</h3><p>Strona usługowa z formularzem wyceny, cennikiem i paskiem „Zadzwoń” na telefonie.</p><span class="tag">Zobacz stronę →</span></div></a>
       <a class="proj" href="salon.html"><div class="thumb"><iframe src="salon.html" title="Podgląd strony gabinetu kosmetycznego" tabindex="-1" aria-hidden="true"></iframe></div><div><h3>Gabinet kosmetyczny</h3><p>Elegancki layout, cennik w zakładkach i prosty moduł rezerwacji terminu.</p><span class="tag">Zobacz stronę →</span></div></a>

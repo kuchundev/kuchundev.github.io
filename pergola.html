@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Konfigurator wiaty 3D</title>
+<meta name="description" content="Projekt demonstracyjny: konfigurator wiaty / pergoli w Three.js. Wymiary, kąt dachu, kolor RAL, orientacyjna cena na żywo i specyfikacja PDF z rzutami.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --steel:#2F3A40;      /* tekst, ramy */
+  --zinc:#66737A;       /* tekst pomocniczy */
+  --line:#CDD4D6;       /* linie, obramowania */
+  --sky:#E9EEF0;        /* tło sceny */
+  --paper:#FFFFFF;      /* panel */
+  --moss:#47633A;       /* akcja główna */
+  --moss-ink:#FFFFFF;
+  --ground:#D2D6CE;
+  --focus:#1F6FEB;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --steel:#E3E8EA; --zinc:#9AA6AC; --line:#38444A; --sky:#1B2327; --paper:#141B1E;
+    --moss:#7FA568; --moss-ink:#0F1A0B; --ground:#2B3430; --focus:#6AA7FF; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --steel:#E3E8EA; --zinc:#9AA6AC; --line:#38444A; --sky:#1B2327; --paper:#141B1E;
+  --moss:#7FA568; --moss-ink:#0F1A0B; --ground:#2B3430; --focus:#6AA7FF; color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--steel);background:var(--sky);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 392px;height:100vh;height:100dvh}
+.stage{position:relative;min-height:0;overflow:hidden;background:var(--sky)}
+.stage canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.demo{position:absolute;left:16px;top:14px;font-size:13px;color:var(--zinc);background:color-mix(in srgb,var(--paper) 82%,transparent);padding:5px 10px;border-radius:6px;pointer-events:none}
+.hint{position:absolute;left:16px;bottom:14px;font-size:13px;color:var(--zinc);pointer-events:none}
+.reset{position:absolute;right:14px;top:12px;font:inherit;font-size:13px;color:var(--steel);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+.dim{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--steel);background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:1px 6px;white-space:nowrap;pointer-events:none;will-change:transform}
+.nogl{position:absolute;inset:0;display:none;place-items:center;padding:24px;text-align:center;color:var(--zinc)}
+
+.panel{background:var(--paper);border-left:1px solid var(--line);overflow-y:auto;padding:22px 24px 28px;display:flex;flex-direction:column;gap:22px}
+h1{font-size:26px;line-height:1.1;font-weight:760;font-stretch:88%;letter-spacing:-.01em;margin:0}
+.lead{margin:6px 0 0;color:var(--zinc);font-size:15px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;font-weight:650;font-size:15px;margin-bottom:10px}
+.ctl{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 12px;margin-bottom:14px}
+.ctl label{font-size:15px}
+.ctl output{font-weight:650;font-variant-numeric:tabular-nums;font-size:15px}
+.ctl small{grid-column:1/-1;color:var(--zinc);font-size:12.5px;margin-top:-2px}
+input[type=range]{grid-column:1/-1;width:100%;margin:6px 0 0;accent-color:var(--moss);height:28px;cursor:pointer}
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.sw{appearance:none;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:5px 9px 5px 5px;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;color:var(--steel);cursor:pointer;min-height:40px}
+.sw i{width:28px;height:28px;border-radius:5px;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.sw[aria-pressed="true"]{border-color:var(--steel);box-shadow:0 0 0 1px var(--steel)}
+.price{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0}
+.price .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.price .big{font-size:34px;font-weight:780;font-stretch:84%;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.price p{margin:6px 0 0;color:var(--zinc);font-size:13px}
+.btn{font:inherit;font-weight:650;font-size:16px;border-radius:8px;padding:13px 16px;cursor:pointer;width:100%;border:1px solid var(--moss);background:var(--moss);color:var(--moss-ink)}
+.btn.ghost{background:transparent;color:var(--steel);border-color:var(--steel)}
+.btn:disabled{opacity:.6;cursor:progress}
+form{display:grid;gap:10px}
+form label{font-size:14px;display:grid;gap:4px}
+form input[type=text],form input[type=email],form input[type=tel],form textarea{font:inherit;font-size:16px;color:var(--steel);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 11px;width:100%}
+form textarea{min-height:76px;resize:vertical}
+.check{display:flex !important;grid-template-columns:none;gap:9px;align-items:flex-start;font-size:13px;color:var(--zinc)}
+.check input{margin-top:3px;width:18px;height:18px;accent-color:var(--moss)}
+.msg{font-size:14px;padding:10px 12px;border-radius:6px;border:1px solid var(--line);display:none}
+.msg.ok{display:block;border-color:var(--moss)}
+.msg.err{display:block;border-color:#B4472F}
+.foot{font-size:12.5px;color:var(--zinc);margin:0}
+.foot a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+@media (max-width:880px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto auto;height:auto}
+  .stage{height:50vh;height:50svh;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--line)}
+  .panel{border-left:0;overflow:visible;padding:18px 16px 32px}
+  h1{font-size:23px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stage" id="stage">
+    <div class="demo">Projekt demonstracyjny kuchun.dev</div>
+    <div class="hint" id="hint">Przeciągnij, aby obrócić. Kółko lub dwa palce: przybliżenie.</div>
+    <button class="reset" id="reset" type="button">Widok startowy</button>
+    <div class="dim" id="dimW"></div>
+    <div class="dim" id="dimL"></div>
+    <div class="dim" id="dimH"></div>
+    <div class="nogl" id="nogl">Ta przeglądarka nie obsługuje WebGL. Parametry, cenę i specyfikację PDF można ustawić w panelu.</div>
+  </div>
+
+  <main class="panel">
+    <header>
+      <h1>Skonfiguruj wiatę</h1>
+      <p class="lead">Ustaw wymiary i kolor dachu. Cena przelicza się od razu, a specyfikację z rzutami pobierzesz jako PDF.</p>
+    </header>
+
+    <fieldset>
+      <legend>Wymiary</legend>
+      <div class="ctl">
+        <label for="W">Szerokość (front)</label><output id="oW" for="W"></output>
+        <input type="range" id="W" min="2.5" max="7" step="0.1" value="4">
+      </div>
+      <div class="ctl">
+        <label for="L">Długość (w kierunku spadku)</label><output id="oL" for="L"></output>
+        <input type="range" id="L" min="2" max="5" step="0.1" value="3">
+      </div>
+      <div class="ctl">
+        <label for="H">Wysokość z przodu</label><output id="oH" for="H"></output>
+        <input type="range" id="H" min="2.1" max="3" step="0.05" value="2.4">
+        <small id="sH"></small>
+      </div>
+      <div class="ctl">
+        <label for="A">Kąt dachu</label><output id="oA" for="A"></output>
+        <input type="range" id="A" min="2" max="15" step="1" value="8">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Kolor poszycia (RAL)</legend>
+      <div class="swatches" id="swatches"></div>
+    </fieldset>
+
+    <section class="price" aria-live="polite">
+      <div class="row"><span>Orientacyjna cena</span><span class="big" id="price"></span></div>
+      <p id="priceNet"></p>
+      <p>Konstrukcja stalowa ocynkowana, malowana proszkowo, z poszyciem. Bez fundamentów i montażu. Ceny w demo są przykładowe.</p>
+    </section>
+
+    <button class="btn" id="pdf" type="button">Generuj specyfikację (PDF)</button>
+
+    <form id="form" novalidate>
+      <legend style="font-weight:650;font-size:15px">Wyślij zapytanie do biura handlowego</legend>
+      <label>Imię i nazwisko<input type="text" name="name" autocomplete="name" required></label>
+      <label>E-mail<input type="email" name="email" autocomplete="email"></label>
+      <label>Telefon<input type="tel" name="phone" autocomplete="tel"></label>
+      <label>Kod pocztowy montażu<input type="text" name="zip" inputmode="numeric" placeholder="00-000" autocomplete="postal-code"></label>
+      <label>Uwagi<textarea name="note" placeholder="np. wiata przy ścianie domu, termin montażu"></textarea></label>
+      <label class="check"><input type="checkbox" name="consent" required> Zgadzam się na kontakt w sprawie tego zapytania.</label>
+      <div class="msg" id="msg" role="status"></div>
+      <button class="btn ghost" type="submit">Wyślij zapytanie</button>
+    </form>
+
+    <p class="foot">Projekt demonstracyjny: czysty Three.js, bez silnika gier. Scena renderuje się tylko przy ruchu lub zmianie parametrów. Autor: <a href="https://kuchundev.github.io">kuchun.dev</a></p>
+  </main>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* ---------- dane ---------- */
+const RAL = [
+  { code:'7016', name:'Antracyt',          hex:'#383E42', std:true },
+  { code:'9005', name:'Czarny',            hex:'#0E0E10', std:true },
+  { code:'9016', name:'Biały',             hex:'#F1F1EC', std:true },
+  { code:'7035', name:'Jasnoszary',        hex:'#C5C9C6', std:false },
+  { code:'8017', name:'Brąz czekoladowy',  hex:'#45322E', std:false },
+  { code:'6005', name:'Zielony mech',      hex:'#1E4234', std:false },
+  { code:'3009', name:'Czerwony tlenkowy', hex:'#642B26', std:false },
+];
+/* cennik przykładowy (netto) — w wersji docelowej jeden obiekt / arkusz po stronie firmy */
+const PRICING = { base:2900, perM2:540, perPost:310, steepPerM2:25, tallPct:0.06, colorPct:0.06, vat:0.23 };
+
+const state = { W:4, L:3, H:2.4, A:8, ral:'7016' };
+const POST=0.12, BEAM_H=0.16, BEAM_W=0.08, RAFT_W=0.06, RAFT_H=0.12, ROOF_T=0.03, OVER_X=0.1, OVER_Z=0.17;
+
+const $ = id => document.getElementById(id);
+const fmt1 = n => n.toLocaleString('pl-PL',{minimumFractionDigits:1,maximumFractionDigits:1});
+const fmt2 = n => n.toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2});
+const zl = n => Math.round(n).toLocaleString('pl-PL') + ' zł';
+
+function geom(s=state){
+  const t = Math.tan(s.A*Math.PI/180);
+  const run = s.L - POST;
+  const Hb = s.H + run*t;                     // wysokość z tyłu
+  const nx = Math.max(1, Math.ceil(s.W/3.5)) + 1;   // słupy w jednym rzędzie (rozstaw ≤ 3,5 m)
+  const nr = Math.max(3, Math.round((s.W-POST)/0.75) + 1); // krokwie co ~75 cm
+  const slope = Math.hypot(run, Hb-s.H);
+  const roofArea = (s.W + 2*OVER_X) * (slope + 2*OVER_Z);
+  return { Hb, nx, posts:nx*2, nr, slope, ang:Math.atan2(Hb-s.H, run), roofArea, footprint:s.W*s.L };
+}
+function price(s=state){
+  const g = geom(s); const P = PRICING;
+  let net = P.base + g.roofArea*P.perM2 + g.posts*P.perPost;
+  if (s.A >= 10) net += g.roofArea*P.steepPerM2;
+  if (g.Hb > 2.9) net *= 1 + P.tallPct;
+  const col = RAL.find(r=>r.code===s.ral);
+  if (!col.std) net *= 1 + P.colorPct;
+  net = Math.round(net/50)*50;
+  return { net, gross: Math.round(net*(1+P.vat)/50)*50 };
+}
+
+/* ---------- UI ---------- */
+const sw = $('swatches');
+RAL.forEach(r=>{
+  const b=document.createElement('button');
+  b.type='button'; b.className='sw'; b.dataset.code=r.code;
+  b.setAttribute('aria-pressed', r.code===state.ral);
+  b.innerHTML=`<i style="background:${r.hex}"></i><span>${r.code} ${r.name}${r.std?'':' <span style="color:var(--zinc)">+6%</span>'}</span>`;
+  b.addEventListener('click',()=>{ state.ral=r.code; sw.querySelectorAll('.sw').forEach(x=>x.setAttribute('aria-pressed', x.dataset.code===r.code)); update(); });
+  sw.appendChild(b);
+});
+['W','L','H','A'].forEach(k=>$(k).addEventListener('input',e=>{ state[k]=parseFloat(e.target.value); update(); }));
+
+function update(){
+  const g = geom(), p = price();
+  $('oW').textContent = fmt1(state.W)+' m';
+  $('oL').textContent = fmt1(state.L)+' m';
+  $('oH').textContent = fmt2(state.H)+' m';
+  $('oA').textContent = state.A+'°';
+  $('sH').textContent = 'Z tyłu wyjdzie ' + fmt2(g.Hb) + ' m (spadek dachu do przodu).';
+  $('price').textContent = zl(p.gross);
+  $('priceNet').textContent = zl(p.net) + ' netto + 23% VAT. Dach ' + fmt1(g.roofArea) + ' m², ' + g.posts + ' ' + (g.posts%10>=2&&g.posts%10<=4&&(g.posts%100<10||g.posts%100>=20)?'słupy':'słupów') + '.';
+  if (gl) { build(); needs = true; }
+}
+
+/* ---------- scena 3D ---------- */
+const stage = $('stage');
+let gl = true, renderer, scene, camera, controls, model, frameMat, roofMat, ground, dimLines, needs = true;
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const START = new THREE.Vector3(6.4, 3.9, 7.6);
+
+try {
+  renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance' });
+} catch(e) { gl = false; }
+
+if (gl) {
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  stage.prepend(renderer.domElement);
+  renderer.domElement.setAttribute('aria-label','Model 3D wiaty. Przeciągnij, aby obrócić.');
+
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(38, 1, 0.1, 200);
+  camera.position.copy(START);
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.09;
+  controls.enablePan = false; controls.minDistance = 4; controls.maxDistance = 20;
+  controls.maxPolarAngle = Math.PI*0.48;
+  controls.target.set(0, 1.25, 0);
+  controls.addEventListener('change', ()=>{ needs = true; });
+  controls.addEventListener('start', ()=>{ $('hint').style.opacity = 0; });
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x7d8476, 1.15));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.1);
+  sun.position.set(5, 10, 6); sun.castShadow = true;
+  sun.shadow.mapSize.set(1024,1024);
+  Object.assign(sun.shadow.camera, { left:-7, right:7, top:7, bottom:-7, near:1, far:30 });
+  sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02;
+  scene.add(sun);
+
+  ground = new THREE.Mesh(new THREE.CircleGeometry(15, 72), new THREE.MeshStandardMaterial({ roughness:1 }));
+  ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+  const grid = new THREE.GridHelper(12, 12, 0x9aa197, 0x9aa197);
+  grid.material.transparent = true; grid.material.opacity = 0.28; grid.position.y = 0.003; scene.add(grid);
+
+  frameMat = new THREE.MeshStandardMaterial({ color:0x2a2f33, metalness:0.35, roughness:0.55 });
+  roofMat  = new THREE.MeshStandardMaterial({ metalness:0.25, roughness:0.5, side:THREE.DoubleSide });
+  model = new THREE.Group(); scene.add(model);
+  dimLines = new THREE.Group(); scene.add(dimLines);
+  applyTheme();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', ()=>{ applyTheme(); needs = true; });
+
+  new ResizeObserver(resize).observe(stage);
+  resize();
+  $('reset').addEventListener('click', ()=>{ camera.position.copy(START); controls.target.set(0,1.25,0); controls.update(); needs = true; });
+  requestAnimationFrame(loop);
+} else {
+  $('nogl').style.display = 'grid';
+  $('reset').style.display = 'none'; $('hint').style.display = 'none';
+}
+
+function applyTheme(){
+  scene.background = new THREE.Color(cssVar('--sky') || '#E9EEF0');
+  ground.material.color.set(cssVar('--ground') || '#D2D6CE');
+}
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false);
+  camera.aspect = w/h;
+  camera.fov = w/h < 0.9 ? 50 : 38;   // telefon w pionie: szerszy kadr
+  camera.updateProjectionMatrix();
+  needs = true;
+}
+function clearGroup(g){ g.traverse(o=>{ if (o.geometry) o.geometry.dispose(); }); g.clear(); }
+function box(w,h,d,mat){ const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat); m.castShadow = true; m.receiveShadow = true; return m; }
+
+function build(){
+  clearGroup(model); clearGroup(dimLines);
+  const { W, L, H } = state; const g = geom();
+  const zf = L/2 - POST/2, zb = -L/2 + POST/2;
+  for (let i=0; i<g.nx; i++){
+    const x = -W/2 + POST/2 + (W-POST)*i/(g.nx-1);
+    const pf = box(POST, H, POST, frameMat); pf.position.set(x, H/2, zf); model.add(pf);
+    const pb = box(POST, g.Hb, POST, frameMat); pb.position.set(x, g.Hb/2, zb); model.add(pb);
+  }
+  const fb = box(W, BEAM_H, BEAM_W, frameMat); fb.position.set(0, H-BEAM_H/2, zf); model.add(fb);
+  const bb = box(W, BEAM_H, BEAM_W, frameMat); bb.position.set(0, g.Hb-BEAM_H/2, zb); model.add(bb);
+  const c = Math.cos(g.ang), midY = (H+g.Hb)/2;
+  for (let i=0; i<g.nr; i++){
+    const x = -W/2 + POST/2 + (W-POST)*i/(g.nr-1);
+    const r = box(RAFT_W, RAFT_H, g.slope+0.18, frameMat);
+    r.position.set(x, midY + (RAFT_H/2)/c, 0); r.rotation.x = g.ang; model.add(r);
+  }
+  roofMat.color.set(RAL.find(r=>r.code===state.ral).hex);
+  const roof = box(W+2*OVER_X, ROOF_T, g.slope+2*OVER_Z, roofMat);
+  roof.position.set(0, midY + (RAFT_H + ROOF_T/2)/c, 0); roof.rotation.x = g.ang; model.add(roof);
+  // rynna z przodu
+  const gut = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,W+2*OVER_X,16,1,false,0,Math.PI), frameMat);
+  gut.rotation.z = Math.PI/2; gut.rotation.y = Math.PI;
+  const fz = (g.slope/2+OVER_Z)*c, fy = midY + (RAFT_H)/c - (g.slope/2+OVER_Z)*Math.sin(g.ang);
+  gut.position.set(0, fy, fz + 0.03); gut.castShadow = true; model.add(gut);
+
+  // linie wymiarowe
+  const lm = new THREE.LineBasicMaterial({ color: 0x5b666c });
+  const seg = (a,b) => { const geo = new THREE.BufferGeometry().setFromPoints([a,b]); dimLines.add(new THREE.Line(geo, lm)); };
+  const V = (x,y,z) => new THREE.Vector3(x,y,z);
+  const zd = L/2 + 0.45, xd = W/2 + 0.45, y0 = 0.01;
+  seg(V(-W/2,y0,zd), V(W/2,y0,zd)); seg(V(-W/2,y0,L/2), V(-W/2,y0,zd+0.1)); seg(V(W/2,y0,L/2), V(W/2,y0,zd+0.1));
+  seg(V(xd,y0,-L/2), V(xd,y0,L/2)); seg(V(W/2,y0,-L/2), V(xd+0.1,y0,-L/2)); seg(V(W/2,y0,L/2), V(xd+0.1,y0,L/2));
+  const xh = -W/2 - 0.35;
+  seg(V(xh,0,L/2), V(xh,H,L/2)); seg(V(xh-0.08,H,L/2), V(-W/2,H,L/2));
+  labelPts.W.set(0, y0, zd); labelPts.L.set(xd, y0, 0); labelPts.H.set(xh, H/2, L/2);
+  $('dimW').textContent = fmt1(W)+' m'; $('dimL').textContent = fmt1(L)+' m'; $('dimH').textContent = fmt2(H)+' m';
+}
+const labelPts = { W:new THREE.Vector3(), L:new THREE.Vector3(), H:new THREE.Vector3() };
+const tmp = new THREE.Vector3();
+function placeLabels(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  for (const k of ['W','L','H']){
+    tmp.copy(labelPts[k]).project(camera);
+    const el = $('dim'+k);
+    const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.05 && Math.abs(tmp.y) < 1.05;
+    el.style.display = vis ? 'block' : 'none';
+    el.style.transform = `translate(${(tmp.x*0.5+0.5)*w}px, ${(-tmp.y*0.5+0.5)*h}px) translate(-50%,-50%)`;
+  }
+}
+function loop(){
+  requestAnimationFrame(loop);
+  const moved = controls.update();
+  if (moved || needs){ renderer.render(scene, camera); placeLabels(); needs = false; }
+}
+
+update();
+
+/* ---------- specyfikacja PDF ---------- */
+function loadJsPDF(){
+  if (window.jspdf) return Promise.resolve(window.jspdf.jsPDF);
+  return new Promise((res, rej)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = ()=>res(window.jspdf.jsPDF); s.onerror = ()=>rej(new Error('Nie udało się pobrać biblioteki PDF. Sprawdź połączenie i spróbuj ponownie.'));
+    document.head.appendChild(s);
+  });
+}
+function specNo(){ const d=new Date(), p=n=>String(n).padStart(2,'0'); return `SPEC-${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`; }
+
+function drawSheet(){
+  const Wpx = 1654, Hpx = 2339, M = 110;   // A4, 200 dpi
+  const cv = document.createElement('canvas'); cv.width = Wpx; cv.height = Hpx;
+  const x = cv.getContext('2d');
+  const ink = '#2F3A40', mute = '#66737A', rule = '#CDD4D6';
+  const F = (w,s) => `${w} ${s}px Archivo, "Segoe UI", Arial, sans-serif`;
+  const g = geom(), p = price(), col = RAL.find(r=>r.code===state.ral);
+  x.fillStyle = '#fff'; x.fillRect(0,0,Wpx,Hpx);
+  x.fillStyle = ink; x.font = F(700,58); x.fillText('Specyfikacja wiaty', M, M+50);
+  x.font = F(400,28); x.fillStyle = mute;
+  x.fillText(`${specNo()}    ${new Date().toLocaleDateString('pl-PL')}    projekt demonstracyjny kuchun.dev`, M, M+100);
+  x.fillStyle = rule; x.fillRect(M, M+130, Wpx-2*M, 2);
+
+  // podgląd 3D
+  const top = M+170, snapW = 760, snapH = 520;
+  if (gl){ renderer.render(scene, camera); x.drawImage(renderer.domElement, 0,0,renderer.domElement.width,renderer.domElement.height, ...fit(renderer.domElement.width, renderer.domElement.height, M, top, snapW, snapH)); }
+  x.strokeStyle = rule; x.lineWidth = 2; x.strokeRect(M, top, snapW, snapH);
+
+  // tabela parametrów
+  const tx = M + snapW + 60; let ty = top + 30;
+  const rows = [
+    ['Szerokość (front)', fmt2(state.W)+' m'], ['Długość', fmt2(state.L)+' m'],
+    ['Wysokość z przodu', fmt2(state.H)+' m'], ['Wysokość z tyłu', fmt2(g.Hb)+' m'],
+    ['Kąt dachu', state.A+'°'], ['Powierzchnia zabudowy', fmt2(g.footprint)+' m²'],
+    ['Powierzchnia dachu', fmt2(g.roofArea)+' m²'], ['Słupy 12×12 cm', String(g.posts)],
+    ['Krokwie', String(g.nr)], ['Poszycie', `RAL ${col.code} ${col.name}`],
+  ];
+  rows.forEach(([k,v])=>{ x.font = F(400,26); x.fillStyle = mute; x.fillText(k, tx, ty); x.font = F(600,26); x.fillStyle = ink; x.fillText(v, tx+330, ty); ty += 40; });
+  x.fillStyle = col.hex; x.fillRect(tx+330, ty-26, 60, 30); x.strokeStyle = rule; x.strokeRect(tx+330, ty-26, 60, 30);
+  ty += 50;
+  x.font = F(400,27); x.fillStyle = mute; x.fillText('Orientacyjna cena', tx, ty);
+  x.font = F(750,52); x.fillStyle = ink; x.fillText(zl(p.gross)+' brutto', tx, ty+58);
+  x.font = F(400,25); x.fillStyle = mute; x.fillText(zl(p.net)+' netto, bez fundamentów i montażu', tx, ty+98);
+
+  // rzuty
+  const bTop = Math.max(top + snapH, ty + 110) + 80;
+  view(x, 'Rzut z góry', M, bTop, Wpx-2*M, 500, drawTop);
+  view(x, 'Widok z przodu', M, bTop+580, (Wpx-2*M)/2-30, 520, drawFront);
+  view(x, 'Widok z boku (tył po lewej, front po prawej)', M+(Wpx-2*M)/2+30, bTop+580, (Wpx-2*M)/2-30, 520, drawSide);
+
+  x.font = F(400,23); x.fillStyle = mute;
+  x.fillText('Wymiary w metrach. Dokument poglądowy z konfiguratora: ostateczne wymiary i cenę potwierdza biuro handlowe po pomiarze.', M, Hpx-M+20);
+  return cv;
+
+  function fit(sw, sh, bx, by, bw, bh){ const s = Math.min(bw/sw, bh/sh); const w = sw*s, h = sh*s; return [bx+(bw-w)/2, by+(bh-h)/2, w, h]; }
+  function view(c, title, bx, by, bw, bh, fn){
+    c.font = F(650,30); c.fillStyle = ink; c.fillText(title, bx, by);
+    c.strokeStyle = rule; c.lineWidth = 2; c.strokeRect(bx, by+20, bw, bh-20);
+    c.save(); fn(c, bx, by+20, bw, bh-20); c.restore();
+  }
+  function dim(c, x1,y1,x2,y2, text, off){
+    // linia wymiarowa z odsunięciem `off` (px) prostopadle
+    const dx = x2-x1, dy = y2-y1, len = Math.hypot(dx,dy), nx = -dy/len*off, ny = dx/len*off;
+    c.strokeStyle = mute; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(x1,y1); c.lineTo(x1+nx*1.15,y1+ny*1.15); c.moveTo(x2,y2); c.lineTo(x2+nx*1.15,y2+ny*1.15);
+    c.moveTo(x1+nx,y1+ny); c.lineTo(x2+nx,y2+ny); c.stroke();
+    [[x1+nx,y1+ny],[x2+nx,y2+ny]].forEach(([px,py])=>{ c.beginPath(); c.moveTo(px-7,py+7); c.lineTo(px+7,py-7); c.stroke(); });
+    const mx = (x1+x2)/2+nx, my = (y1+y2)/2+ny;
+    c.save(); c.translate(mx,my); let a = Math.atan2(dy,dx); if (a>Math.PI/2||a<-Math.PI/2) a += Math.PI; c.rotate(a);
+    c.font = F(600,26); const tw = c.measureText(text).width; c.fillStyle = '#fff'; c.fillRect(-tw/2-8,-18,tw+16,36);
+    c.fillStyle = ink; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(text, 0, 0); c.restore();
+  }
+  function scaleFor(bw,bh,a,b){ return Math.min((bw-220)/a, (bh-200)/b); }
+  function drawTop(c, bx, by, bw, bh){
+    const s = scaleFor(bw,bh,state.W+2*OVER_X,state.L+2*OVER_Z);
+    const cx = bx+bw/2, cy = by+bh/2, X = v=>cx+v*s, Y = v=>cy+v*s;
+    c.setLineDash([12,8]); c.strokeStyle = mute; c.lineWidth = 2;
+    c.strokeRect(X(-state.W/2-OVER_X), Y(-state.L/2-OVER_Z), (state.W+2*OVER_X)*s, (state.L+2*OVER_Z)*s); c.setLineDash([]);
+    c.strokeStyle = ink; c.lineWidth = 3; c.strokeRect(X(-state.W/2), Y(-state.L/2), state.W*s, state.L*s);
+    c.lineWidth = 1.5; c.strokeStyle = '#8B969B';
+    for (let i=0;i<g.nr;i++){ const xx = -state.W/2+POST/2+(state.W-POST)*i/(g.nr-1); c.beginPath(); c.moveTo(X(xx),Y(-state.L/2)); c.lineTo(X(xx),Y(state.L/2)); c.stroke(); }
+    c.fillStyle = ink;
+    for (let i=0;i<g.nx;i++){ const xx = -state.W/2+(state.W-POST)*i/(g.nx-1); [ -state.L/2, state.L/2-POST ].forEach(zz=>c.fillRect(X(xx),Y(zz),POST*s,POST*s)); }
+    dim(c, X(-state.W/2), Y(state.L/2), X(state.W/2), Y(state.L/2), fmt2(state.W), 70);
+    dim(c, X(state.W/2), Y(state.L/2), X(state.W/2), Y(-state.L/2), fmt2(state.L), 70);
+    c.font = F(400,23); c.fillStyle = mute; c.fillText('Linia przerywana: obrys dachu z okapem. Dół rysunku: front (niższa krawędź, rynna).', bx+24, by+40);
+  }
+  function drawFront(c, bx, by, bw, bh){
+    const s = scaleFor(bw,bh,state.W+2*OVER_X, g.Hb+0.3);
+    const cx = bx+bw/2, base = by+bh-90, X = v=>cx+v*s, Y = v=>base-v*s;
+    c.strokeStyle = mute; c.lineWidth = 2; c.beginPath(); c.moveTo(bx+30,base); c.lineTo(bx+bw-30,base); c.stroke();
+    c.fillStyle = '#B8C0C3';
+    for (let i=0;i<g.nx;i++){ const xx = -state.W/2+(state.W-POST)*i/(g.nx-1); c.fillRect(X(xx),Y(g.Hb),POST*s,g.Hb*s); }
+    c.fillStyle = ink;
+    for (let i=0;i<g.nx;i++){ const xx = -state.W/2+(state.W-POST)*i/(g.nx-1); c.fillRect(X(xx),Y(state.H),POST*s,state.H*s); }
+    c.fillRect(X(-state.W/2),Y(state.H),state.W*s,BEAM_H*s);
+    c.fillStyle = col.hex; c.fillRect(X(-state.W/2-OVER_X),Y(g.Hb+RAFT_H+ROOF_T),(state.W+2*OVER_X)*s,(g.Hb-state.H+RAFT_H+ROOF_T)*s*0.999);
+    c.strokeStyle = ink; c.strokeRect(X(-state.W/2-OVER_X),Y(g.Hb+RAFT_H+ROOF_T),(state.W+2*OVER_X)*s,(g.Hb-state.H+RAFT_H+ROOF_T)*s);
+    dim(c, X(-state.W/2), base, X(state.W/2), base, fmt2(state.W), 55);
+    dim(c, X(-state.W/2), Y(state.H), X(-state.W/2), base, fmt2(state.H), 60);
+    dim(c, X(state.W/2), base, X(state.W/2), Y(g.Hb), fmt2(g.Hb), 60);
+  }
+  function drawSide(c, bx, by, bw, bh){
+    const s = scaleFor(bw,bh,state.L+2*OVER_Z, g.Hb+0.3);
+    const cx = bx+bw/2, base = by+bh-90, Z = v=>cx+v*s, Y = v=>base-v*s;   // z: tył po lewej, front po prawej
+    c.strokeStyle = mute; c.lineWidth = 2; c.beginPath(); c.moveTo(bx+30,base); c.lineTo(bx+bw-30,base); c.stroke();
+    c.fillStyle = ink;
+    c.fillRect(Z(-state.L/2),Y(g.Hb),POST*s,g.Hb*s); c.fillRect(Z(state.L/2-POST),Y(state.H),POST*s,state.H*s);
+    const t = Math.tan(g.ang), roofY = z => state.H + (state.L/2-POST/2 - z)*t;
+    c.fillStyle = col.hex; c.strokeStyle = ink; c.lineWidth = 2;
+    const z1 = -state.L/2-OVER_Z, z2 = state.L/2+OVER_Z, th = (RAFT_H+ROOF_T)/Math.cos(g.ang);
+    c.beginPath(); c.moveTo(Z(z1),Y(roofY(z1)+th)); c.lineTo(Z(z2),Y(roofY(z2)+th)); c.lineTo(Z(z2),Y(roofY(z2))); c.lineTo(Z(z1),Y(roofY(z1))); c.closePath(); c.fill(); c.stroke();
+    dim(c, Z(-state.L/2), base, Z(state.L/2), base, fmt2(state.L), 55);
+    dim(c, Z(state.L/2), base, Z(state.L/2), Y(state.H), fmt2(state.H), 60);
+    dim(c, Z(-state.L/2), Y(g.Hb), Z(-state.L/2), base, fmt2(g.Hb), 60);
+    c.font = F(600,26); c.fillStyle = ink; c.fillText(`spadek ${state.A}°`, Z(-state.L/6), Y(roofY(-state.L/6)+th)-22);
+  }
+}
+
+$('pdf').addEventListener('click', async e=>{
+  const b = e.currentTarget, label = b.textContent; b.disabled = true; b.textContent = 'Przygotowuję PDF…';
+  try {
+    await document.fonts.ready;
+    const jsPDF = await loadJsPDF();
+    const cv = drawSheet();
+    const doc = new jsPDF({ unit:'mm', format:'a4', compress:true });
+    doc.setProperties({ title:'Specyfikacja wiaty', subject:'Konfigurator wiaty (projekt demonstracyjny)' });
+    doc.addImage(cv.toDataURL('image/jpeg', 0.9), 'JPEG', 0, 0, 210, 297);
+    doc.save(`specyfikacja-wiaty-${fmt1(state.W).replace(',','_')}x${fmt1(state.L).replace(',','_')}.pdf`);
+    window.__lastSpecOk = true;
+  } catch(err){ showMsg(err.message, false); }
+  b.disabled = false; b.textContent = label;
+});
+
+/* ---------- zapytanie ---------- */
+function showMsg(t, ok){ const m = $('msg'); m.textContent = t; m.className = 'msg ' + (ok?'ok':'err'); }
+$('form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const f = new FormData(e.target);
+  if (!f.get('name').trim()) return showMsg('Wpisz imię i nazwisko.', false);
+  if (!f.get('email').trim() && !f.get('phone').trim()) return showMsg('Podaj e-mail albo telefon, żeby biuro mogło odpowiedzieć.', false);
+  if (f.get('email').trim() && !/^\S+@\S+\.\S+$/.test(f.get('email').trim())) return showMsg('Sprawdź adres e-mail.', false);
+  if (!f.get('consent')) return showMsg('Zaznacz zgodę na kontakt.', false);
+  const g = geom(), p = price();
+  window.__lastInquiry = { ...Object.fromEntries(f), config:{ ...state, Hb:+g.Hb.toFixed(2), roofArea:+g.roofArea.toFixed(2), posts:g.posts }, price:p };
+  showMsg(`Zapytanie gotowe: ${fmt1(state.W)} × ${fmt1(state.L)} m, RAL ${state.ral}, ok. ${zl(p.gross)}. W wersji demonstracyjnej nic nie jest wysyłane. We wdrożeniu trafi na e-mail biura (albo do CRM) razem z PDF.`, true);
+});
+</script>
+</body>
+</html>
